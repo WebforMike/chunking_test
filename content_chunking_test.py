@@ -13,7 +13,7 @@ from langchain_google_vertexai import VertexAIEmbeddings
 # -------------------------------
 # CONFIGURATION
 # -------------------------------
-PROJECT_ID = "marketingdata-393009"
+PROJECT_ID = "project-id-here"
 LOCATION = "us-central1"
 USE_VERTEX_EMBEDDINGS = True
 timestamp = datetime.now().strftime("%Y%m%d_%H%M")
