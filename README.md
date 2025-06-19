@@ -1,47 +1,37 @@
-Website Chunk Analyzer and Retrieval
+# Website Chunk Analyzer and Retrieval
 
 This project provides a Python script to analyze website content by applying various text chunking strategies, generating embeddings using Google's Vertex AI, and performing similarity-based retrieval against those chunks. It's designed to help understand how different chunking methods impact content representation and search effectiveness.
 
-Features
+## Features
 
 HTML Block Splitting: Extracts plain-text segments from HTML based on common block-level tags (e.g., h1, p, div).
 
-Multiple Chunking Strategies:
+## Multiple Chunking Strategies:
 
-HTML-aware Chunking: Combines logical HTML blocks into token-limited chunks.
-
-Token-based Chunking: Splits text into fixed-size token chunks with overlap.
-
-Recursive Chunking (LangChain): Uses LangChain's TokenTextSplitter for recursive character splitting.
+1. HTML-aware Chunking: Combines logical HTML blocks into token-limited chunks.
+2. Token-based Chunking: Splits text into fixed-size token chunks with overlap.
+3. Recursive Chunking (LangChain): Uses LangChain's TokenTextSplitter for recursive character splitting.
 
 Hybrid Semantic + Token Chunking (LangChain): Employs LangChain's SemanticChunker to find semantically meaningful breaks, then falls back to token-based splitting if chunks are still too large.
-
 Vertex AI Embeddings: Generates vector embeddings for all chunks using specified Vertex AI embedding models (gemini-embedding-001, text-embedding-004).
-
 HNSWLib Indexing: Creates a highly efficient similarity search index (Hierarchical Navigable Small World) for fast retrieval of relevant chunks.
-
 URL Input: Fetches HTML content directly from a main URL and multiple comparison URLs provided by the user.
-
 Query-based Retrieval: Performs similarity searches using a list of queries from a local file.
-
 CSV Output: Saves detailed chunk information and retrieval results to CSV files for further analysis.
 
-Prerequisites
+## Prerequisites
+
 Before running the script, ensure you have the following:
 
-Python 3.9+
+1. Python 3.9+
+2. Google Cloud Project: A Google Cloud Project with the Vertex AI API enabled.
+3. Google Cloud SDK: Installed and authenticated on your local machine or Google Colab environment.
+4. For Local Development: Run gcloud auth application-default login in your terminal.
+5. For Google Colab: You will use google.colab.auth.authenticate_user() within the notebook.
+6. IAM Permissions: Your authenticated Google Cloud account must have the Vertex AI User (or a broader Vertex AI Administrator) role on your specified Google Cloud Project (marketingdata-393009).
 
-Google Cloud Project: A Google Cloud Project with the Vertex AI API enabled.
+## Installation
 
-Google Cloud SDK: Installed and authenticated on your local machine or Google Colab environment.
-
-For Local Development: Run gcloud auth application-default login in your terminal.
-
-For Google Colab: You will use google.colab.auth.authenticate_user() within the notebook.
-
-IAM Permissions: Your authenticated Google Cloud account must have the Vertex AI User (or a broader Vertex AI Administrator) role on your specified Google Cloud Project (marketingdata-393009).
-
-Installation
 If you are running this in a Google Colab environment, execute the following commands in separate cells at the very beginning of your notebook:
 
 !pip install hnswlib
@@ -53,7 +43,8 @@ If you are running this in a Google Colab environment, execute the following com
 
 After installing these libraries, it is crucial to restart your Colab runtime (Runtime > Restart session from the menu).
 
-Configuration
+## Configuration
+
 The Config class at the beginning of the script holds important parameters:
 
 class Config:
@@ -77,7 +68,8 @@ class Config:
 
 Adjust PROJECT_ID and other parameters as needed.
 
-Usage
+### Usage
+
 Create queries.txt: Create a file named queries.txt in the same directory as your script (or in your Colab environment). Each line in this file should be a query you want to use for retrieval.
 
 Example queries.txt:
@@ -104,7 +96,8 @@ Example interaction:
 Enter the main URL to analyze (e.g., https://www.example.com): https://webfor.com/blog/an-introduction-to-technical-seo/
 Enter comparison URLs (comma-separated, or leave blank): https://ahrefs.com/blog/technical-seo/, https://moz.com/blog/technical-seo-guide
 
-Output
+## Output
+
 The script will generate two CSV files in the same directory:
 
 retrieval_results_YYYYMMDD_HHMM.csv: Contains the results of the similarity retrieval for each query across all chunking methods and URLs. Columns include query, variant_id, variant, chunking_method, similarity, chunk_index, and chunk_text.
@@ -113,7 +106,7 @@ chunked_documents_YYYYMMDD_HHMM.csv: Contains all the generated chunks from each
 
 The YYYYMMDD_HHMM timestamp ensures that each run generates unique output files.
 
-Troubleshooting
+### Troubleshooting
 
 ModuleNotFoundError: Ensure you have run all !pip install commands and restarted your Colab runtime if applicable.
 
